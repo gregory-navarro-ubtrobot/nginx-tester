@@ -11,6 +11,9 @@ services:
     volumes:
       - './gateway/conf:/etc/nginx/conf.d'
       - './gateway/certs/:/usr/share/certs/'
+    links:
+      - ui
+      - ws
 
   ui:
     build: ./ui/
