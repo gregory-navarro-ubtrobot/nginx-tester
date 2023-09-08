@@ -11,22 +11,41 @@
     <!-- a circle with classname connection-indicator -->
     <div class="connection-indicator"></div>
     <!-- Three buttons reading: "ws://localhost/signal", "wss://localhost/signal", "ws://localhost:port"  -->
-      <button onclick="" class="ws">ws://localhost/signal</button>
-      <button class="wss">wss://localhost/signal</button>
-      <button class="ws-port">ws://localhost:port</button>
+      <button onclick="connectUnsecured()" class="ws">ws://localhost/signal</button>
+      <button onclick="connectSecured()" class="wss">wss://localhost/signal</button>
+      <button onclick="connectUnsecuredPort()" class="ws-port">ws://localhost:port</button>
  
-    <script src="js/app.js">
+    <script>
       function connectUnsecured() {
         var serverUrl;
         var scheme = "ws";
-        serverUrl = scheme + "://" + this.hostname + "/signaling";
+        serverUrl = scheme + "://localhost/signaling";
 
         console.log(`Connecting to server: ${serverUrl}`);
         this.connection = new WebSocket(serverUrl, "json");
 
         this.connection.onopen = function() {
           console.log("Connection established");
-          document.querySelector(".connection-indicator").style.backgroundColor = "yellow";  
+          document.querySelector(".connection-indicator").style.backgroundColor = "blue";  
+        };
+
+        this.connection.onerror = function(evt) {
+          console.dir(evt);
+          console.log("Connection established");
+          document.querySelector(".connection-indicator").style.backgroundColor = "red";  
+        };
+      }
+      function connectSecured() {
+        var serverUrl;
+        var scheme = "wss";
+        serverUrl = scheme + "://localhost/signaling";
+
+        console.log(`Connecting to server: ${serverUrl}`);
+        this.connection = new WebSocket(serverUrl, "json");
+
+        this.connection.onopen = function() {
+          console.log("Connection established");
+          document.querySelector(".connection-indicator").style.backgroundColor = "green";  
         };
 
         this.connection.onerror = function(evt) {
@@ -39,7 +58,7 @@
       function connectUnsecuredPort() {
         var serverUrl;
         var scheme = "ws";
-        serverUrl = scheme + "://" + this.hostname + ":8765";
+        serverUrl = scheme + "://localhost:8765";
 
         console.log(`Connecting to server: ${serverUrl}`);
         this.connection = new WebSocket(serverUrl, "json");
