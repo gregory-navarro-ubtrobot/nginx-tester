@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  gateway:
+    build: ./gateway/
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - './gateway/conf:/etc/nginx/conf.d'
+      - './gateway/certs/:/usr/share/certs/'
+
+  ui:
+    build: ./ui/
+    ports:
+      - '5500:5500'
+    volumes:
+      - './ui/src:/usr/src/app/src'
+      - './ui/public:/usr/src/app/public'
+
+  ws:
+    build: ./ws/
+    ports:
+      - '8765:8765'
+    # volumes:
+    #   - './ws/src:/usr/src/app/src'
+    #   - './ws/public:/usr/src/app/public'
