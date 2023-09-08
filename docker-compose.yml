@@ -2,6 +2,9 @@ version: '3.7'
 services:
   gateway:
     build: ./gateway/
+    depends_on:
+      - ui
+      - ws
     ports:
       - '80:80'
       - '443:443'
@@ -11,6 +14,8 @@ services:
 
   ui:
     build: ./ui/
+    expose:
+      - 5500
     ports:
       - '5500:5500'
     volumes:
@@ -23,4 +28,4 @@ services:
       - '8765:8765'
     # volumes:
     #   - './ws/src:/usr/src/app/src'
-    #   - './ws/public:/usr/src/app/public'
+    #   - './ws
